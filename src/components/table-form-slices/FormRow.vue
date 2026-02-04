@@ -3,22 +3,17 @@ import { NInput, NSelect, NButton, NIcon } from "naive-ui";
 import type { SelectOption } from "naive-ui";
 import { Delete24Regular } from "@vicons/fluent";
 import { computed, onBeforeMount, ref, watch } from "vue";
-import type {
-  AccountFormDTO,
-  AccountFormPayload,
-  AccountType,
-} from "@/types/account.ts";
+import type { Account, AccountFormDTO, AccountType } from "@/types/account.ts";
 import { toAccount } from "@/mappers/accountMapper.ts";
 
 interface FormRowProps {
-  index: number;
   account: AccountFormDTO;
 }
 const props = defineProps<FormRowProps>();
 
 const emit = defineEmits<{
-  (e: "save", payload: AccountFormPayload): void;
-  (e: "remove", payload: { index: number }): void;
+  (e: "save", payload: Account): void;
+  (e: "remove", payload: Account): void;
 }>();
 
 const labelsValue = ref("");
@@ -94,14 +89,11 @@ function validate() {
 }
 
 function save() {
-  emit("save", {
-    index: props.index,
-    account: toAccount(formDataFormatted.value),
-  });
+  emit("save", toAccount(formDataFormatted.value));
 }
 
 function remove() {
-  emit("remove", { index: props.index });
+  emit("remove", toAccount(formDataFormatted.value));
 }
 </script>
 
@@ -169,6 +161,6 @@ function remove() {
 .error-desc {
   color: var(--сolor-error);
   font-size: 12px;
-  min-height: 1.2em;
+  height: 1.2em;
 }
 </style>

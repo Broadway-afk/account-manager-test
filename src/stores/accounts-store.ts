@@ -7,17 +7,26 @@ export const useAccountsStore = defineStore(
   () => {
     const accounts = ref<Account[]>([]);
 
+    function getAccountIndex(uid: string) {
+      return accounts.value.findIndex((account) => account.uid === uid);
+    }
+
     function addAccount(account: Account) {
       accounts.value.push(account);
     }
-    function updateAccount(account: Account, index: number) {
-      accounts.value[index] = account;
+    function updateAccount(account: Account) {
+      accounts.value[getAccountIndex(account.uid)] = account;
     }
-    function removeAccount(index: number) {
-      accounts.value.splice(index, 1);
+    function removeAccount(account: Account) {
+      accounts.value.splice(getAccountIndex(account.uid), 1);
     }
 
-    return { accounts, addAccount, updateAccount, removeAccount };
+    return {
+      accounts,
+      addAccount,
+      updateAccount,
+      removeAccount,
+    };
   },
   {
     persist: true,

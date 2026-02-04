@@ -18,8 +18,3 @@ export type AccountFormDTO = {
   login: string;
   password: string | null;
 };
-
-export interface AccountFormPayload {
-  index: number;
-  account: Account;
-}

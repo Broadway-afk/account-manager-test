@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import { NPageHeader, NButton, NIcon, NAlert } from "naive-ui";
 import { useMessage } from "naive-ui";
+import { useDialog } from "naive-ui";
 import { Add12Filled } from "@vicons/fluent";
 import FormContainer from "@/components/table-form-slices/FormContainer.vue";
 import FormRow from "@/components/table-form-slices/FormRow.vue";
 import { useAccountsStore } from "@/stores/accounts-store.ts";
-import type { AccountFormDTO, AccountFormPayload } from "@/types/account.ts";
+import type { Account, AccountFormDTO } from "@/types/account.ts";
 import { ref } from "vue";
 import { generateId } from "@/utils/generate-id.ts";
 import FormPlaceholder from "@/components/table-form-slices/FormPlaceholder.vue";
@@ -13,8 +14,12 @@ import FormPlaceholder from "@/components/table-form-slices/FormPlaceholder.vue"
 const accountsStore = useAccountsStore();
 
 const message = useMessage();
+const dialog = useDialog();
 
 const temporaryAccounts = ref<AccountFormDTO[]>([]);
+function getTemporaryAccountIndex(uid: string) {
+  return temporaryAccounts.value.findIndex((account) => account.uid === uid);
+}
 
 function createTemporaryAccount() {
   temporaryAccounts.value.push({
@@ -27,22 +32,36 @@ function createTemporaryAccount() {
   message.info("Новый аккаунт создан!");
 }
 
-function handleSave(payload: AccountFormPayload, isNew: boolean) {
-  const { account, index } = payload;
+function handleSave(account: Account, isNew: boolean) {
   if (isNew) {
-    temporaryAccounts.value.splice(index, 1);
+    temporaryAccounts.value.splice(getTemporaryAccountIndex(account.uid), 1);
     accountsStore.addAccount(account);
-  } else accountsStore.updateAccount(account, index);
+  } else accountsStore.updateAccount(account);
 
   message.success("Изменения сохранены!");
 }
 
-function handleRemove(payload: { index: number }, isNew: boolean) {
-  const { index } = payload;
-  if (isNew) temporaryAccounts.value.splice(index, 1);
-  else accountsStore.removeAccount(index);
+function handleRemove(account: Account, isNew: boolean) {
+  dialog.error({
+    title: "Подтвердите удаление",
+    content: "Вы точно хотите удалить эту запись?",
+    positiveText: "Точно!",
+    negativeText: "Я еще подумаю",
+    draggable: true,
+    onPositiveClick: () => {
+      if (isNew)
+        temporaryAccounts.value.splice(
+          getTemporaryAccountIndex(account.uid),
+          1,
+        );
+      else accountsStore.removeAccount(account);
 
-  message.info("Аккаунт удален!");
+      message.info("Аккаунт удален!");
+    },
+    onNegativeClick: () => {
+      message.error("Думайте.");
+    },
+  });
 }
 </script>
 
@@ -68,18 +87,16 @@ function handleRemove(payload: { index: number }, isNew: boolean) {
         v-if="accountsStore.accounts.length + temporaryAccounts.length === 0"
       />
       <FormRow
-        v-for="(account, index) in accountsStore.accounts"
+        v-for="account in accountsStore.accounts"
         :key="account.uid"
         :account="account"
-        :index="index"
         @save="(payload) => handleSave(payload, false)"
         @remove="(payload) => handleRemove(payload, false)"
       />
       <FormRow
-        v-for="(account, index) in temporaryAccounts"
+        v-for="account in temporaryAccounts"
         :key="account.uid"
         :account="account"
-        :index="index"
         @save="(payload) => handleSave(payload, true)"
         @remove="(payload) => handleRemove(payload, true)"
       />

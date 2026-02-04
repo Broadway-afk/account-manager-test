@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { darkTheme } from "naive-ui";
-import { NConfigProvider, NMessageProvider } from "naive-ui";
+import { NConfigProvider, NMessageProvider, NDialogProvider } from "naive-ui";
 import TableForm from "@/components/TableForm.vue";
 </script>
 
@@ -11,7 +11,9 @@ import TableForm from "@/components/TableForm.vue";
     :style="{ flex: 1 }"
   >
     <NMessageProvider>
-      <TableForm />
+      <NDialogProvider>
+        <TableForm />
+      </NDialogProvider>
     </NMessageProvider>
   </NConfigProvider>
 </template>
