@@ -3,10 +3,10 @@
 <template>
   <div class="form-container">
     <div class="form-container__header">
-      <div>Метки</div>
-      <div>Тип записи</div>
-      <div>Логин</div>
-      <div>Пароль</div>
+      <div role="rowheader">Метки</div>
+      <div role="rowheader">Тип записи</div>
+      <div role="rowheader">Логин</div>
+      <div role="rowheader">Пароль</div>
     </div>
     <slot></slot>
   </div>

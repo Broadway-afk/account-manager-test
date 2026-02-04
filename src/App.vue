@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { darkTheme } from "naive-ui";
-import { NConfigProvider } from "naive-ui";
+import { NConfigProvider, NMessageProvider } from "naive-ui";
 import TableForm from "@/components/TableForm.vue";
 </script>
 
@@ -10,20 +10,10 @@ import TableForm from "@/components/TableForm.vue";
     :theme-overrides="{ common: { fontWeightStrong: '600' } }"
     :style="{ flex: 1 }"
   >
-    <TableForm />
+    <NMessageProvider>
+      <TableForm />
+    </NMessageProvider>
   </NConfigProvider>
 </template>
 
-<style scoped>
-header {
-  line-height: 1.5;
-}
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-}
-</style>
+<style scoped></style>

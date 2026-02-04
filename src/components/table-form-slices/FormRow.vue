@@ -130,6 +130,7 @@ function remove() {
       <NInput
         v-model:value="loginValue"
         @blur="validate"
+        maxlength="100"
         type="text"
         placeholder="Логин"
         :status="formErrors.login ? 'error' : undefined"
@@ -140,6 +141,7 @@ function remove() {
       <NInput
         v-model:value="passwordValue"
         @blur="validate"
+        maxlength="100"
         type="password"
         show-password-on="mousedown"
         placeholder="Пароль"
@@ -165,8 +167,8 @@ function remove() {
   gap: 5px;
 }
 .error-desc {
-  color: #e88080;
+  color: var(--сolor-error);
   font-size: 12px;
-  height: 1.2em;
+  min-height: 1.2em;
 }
 </style>
