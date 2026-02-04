@@ -13,7 +13,7 @@ const props = defineProps<FormRowProps>();
 
 const emit = defineEmits<{
   (e: "save", payload: Account): void;
-  (e: "remove", payload: Account): void;
+  (e: "remove", payload: AccountFormDTO): void;
 }>();
 
 const labelsValue = ref("");
@@ -93,7 +93,7 @@ function save() {
 }
 
 function remove() {
-  emit("remove", toAccount(formDataFormatted.value));
+  emit("remove", formDataFormatted.value);
 }
 </script>
 
