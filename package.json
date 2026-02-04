@@ -21,6 +21,7 @@
   "devDependencies": {
     "@tsconfig/node24": "^24.0.4",
     "@types/node": "^24.10.9",
+    "@vicons/fluent": "^0.13.0",
     "@vitejs/plugin-vue": "^6.0.3",
     "@vue/eslint-config-typescript": "^14.6.0",
     "@vue/tsconfig": "^0.8.1",
@@ -29,10 +30,12 @@
     "eslint-plugin-oxlint": "~1.42.0",
     "eslint-plugin-vue": "~10.7.0",
     "jiti": "^2.6.1",
+    "naive-ui": "^2.43.2",
     "npm-run-all2": "^8.0.4",
     "oxlint": "~1.42.0",
     "prettier": "3.8.1",
     "typescript": "~5.9.3",
+    "vfonts": "^0.0.3",
     "vite": "^7.3.1",
     "vite-plugin-vue-devtools": "^8.0.5",
     "vue-tsc": "^3.2.4"
